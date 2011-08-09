@@ -5,6 +5,5 @@
                    'height':hoogte_replace};
 
       // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div_ID_NUMBER'));
-    chart.draw(data, options);
-}
+    var chartID_NUMBER = new google.visualization.PieChart(document.getElementById('chart_div_ID_NUMBER'));
+    chartID_NUMBER.draw(data, options);
