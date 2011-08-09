@@ -1,0 +1,57 @@
+#!/bin/sh
+function addcolomn(){
+    if [ -x $1 ]; then
+	echo -e "['DATA_POINT', VALUE],"
+    else
+	echo -e "['DATA_POINT', VALUE]"
+    fi
+}
+
+contentheaderflag=yes
+divid=0
+TEMP=`getopt -o nd: --long no-content-header, div-id: -- "$@"`
+eval set -- "$TEMP"
+
+while true ; do
+    case "$1" in
+        -n|--no-content-header) contentheaderflag=no; shift ;;
+	-d|--div-id) divid="$OPTARG"; shift ;;
+        --) shift ; break ;;
+        *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+if [ $contentheaderflag == "yes" ]; then
+    echo Content-type: text/html
+    echo ""
+fi
+
+LOADSCRIPT_PT1=script1.js
+LOADSCRIPT_PT2=script2.js
+breedte=500
+hoogte=400
+title="IP Data-usage"
+/bin/cat <<EOF
+<html>
+<head>
+<title>Data visualisatie</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+EOF
+cat $LOADSCRIPT_PT1
+addcolomn   |sed -e "s/DATA_POINT/192\.168\.1\.1/;s/VALUE/200/"
+addcolomn A |sed -e "s/DATA_POINT/192.168\.1\.2/;s/VALUE/400/" 
+
+cat $LOADSCRIPT_PT2 |sed -e "s/title_replace/$title/;\
+s/breedte_replace/$breedte/;\
+s/hoogte_replace/$hoogte/;\
+s/ID_NUMBER/$divid/"
+
+/bin/cat <<EOF
+</script>
+</head>
+<body>
+<div id="chart_div_$divid"></div>
+</body>
+</html>
+EOF
