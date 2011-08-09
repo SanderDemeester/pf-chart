@@ -9,6 +9,9 @@ function addcolomn(){
 
 contentheaderflag=yes
 divid=0
+DATAFILE=voorbeeld-parsedfileformat/test1  #de dataset waaruit we de data moeten halen om te werken
+DATAFILE_RECORDS=$(cat $DATAFILE |wc -l) # aantal records in de datafile
+counter=0 #de counter om in de loop bij te houden hoeveel er al is geloopt
 tmp=`getopt -o nd: --long no-content-header,div-id: -- $@`
 eval set -- $tmp
 while true ; do
@@ -19,8 +22,7 @@ while true ; do
 	*) break;;
     esac
 done
-echo $divid
-echo $contentheaderflag
+
 if [ $contentheaderflag == "yes" ]; then
     echo Content-type: text/html
     echo ""
@@ -39,8 +41,17 @@ title="IP Data-usage"
 <script type="text/javascript">
 EOF
 cat $LOADSCRIPT_PT1
-addcolomn   |sed -e "s/DATA_POINT/192\.168\.1\.1/;s/VALUE/200/"
-addcolomn A |sed -e "s/DATA_POINT/192.168\.1\.2/;s/VALUE/400/" 
+for i in $(cat $DATAFILE); do
+
+    counter=$((counter+1))
+   ipadr=$(echo $i |sed 's/^\([^:]*\):/\1/')
+   value=$( echo $i |sed 's/^[^:]*:\([0-9]*\)$/\1/')
+   if [ $counter -ne $DATAFILE_RECORDS ]; then
+       addcolomn   |sed -e "s/DATA_POINT/$ipadr/;s/VALUE/$value/"
+   else
+       addcolomn A |sed -e "s/DATA_POINT/$ipadr/;s/VALUE/$value/" 
+   fi
+done
 
 cat $LOADSCRIPT_PT2 |sed -e "s/title_replace/$title/;\
 s/breedte_replace/$breedte/;\
