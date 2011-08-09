@@ -9,18 +9,18 @@ function addcolomn(){
 
 contentheaderflag=yes
 divid=0
-TEMP=`getopt -o nd: --long no-content-header, div-id: -- "$@"`
-eval set -- "$TEMP"
-
+tmp=`getopt -o nd: --long no-content-header,div-id: -- $@`
+eval set -- $tmp
 while true ; do
-    case "$1" in
-        -n|--no-content-header) contentheaderflag=no; shift ;;
-	-d|--div-id) divid="$OPTARG"; shift ;;
-        --) shift ; break ;;
-        *) echo "Internal error!" ; exit 1 ;;
+    case $1 in
+	-n|--no-content-header) contentheaderflag=no; shift;;
+	-d|--div-id) divid="$2"; shift;;
+	--) shift; break;;
+	*) break;;
     esac
 done
-
+echo $divid
+echo $contentheaderflag
 if [ $contentheaderflag == "yes" ]; then
     echo Content-type: text/html
     echo ""

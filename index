@@ -1,4 +1,4 @@
 #!/bin/sh
 echo Content-type: text/html
 echo ""
-./make_chart --no-content-header
+./make_chart --no-content-header --div-id 1
