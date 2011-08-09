@@ -1,4 +1,5 @@
 #!/bin/sh
 echo Content-type: text/html
 echo ""
-./make_chart --no-content-header --div-id 1
+./make_chart --no-content-header -d 1 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1
+./make_chart --no-content-header -d 2 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1

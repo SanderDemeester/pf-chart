@@ -44,16 +44,9 @@ fi
 
 LOADSCRIPT_PT1=script1.js
 LOADSCRIPT_PT2=script2.js
-breedte=700
-hoogte=600
+breedte=600
+hoogte=500
 title="IP Data-usage"
-/bin/cat <<EOF
-<html>
-<head>
-<title>Data visualisatie</title>
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-EOF
 cat $LOADSCRIPT_PT1
 for i in $(cat $DATAFILE); do
 
