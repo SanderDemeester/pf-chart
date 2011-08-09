@@ -14,19 +14,20 @@ LOADSCRIPT_PT1=script1.js
 EOF
 cat $LOADSCRIPT_PT1
 ./make_chart --no-content-header -d ${listid[0]} --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
-./make_chart --no-content-header -d ${listid[1]} --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
-/bin/cat <<EOF
-
+./make_chart --no-content-header -d ${listid[1]} --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "Broadcast-traffic"
+/bin/cat <<EOF 
 }</script>
 </head>
 <body>
-<div class="out">
-<div class="inner-left">
-<div id="chart_div_${listid[0]}"></div>
-</div>
-<div class="inner-right">
-<div id="chart_div_${listid[1]}"></div>
-</div>
+  <div class="out">
+    <div class="inner-left">
+      <div id="chart_div_1">
+        </div>
+    </div>
+    <div class="inner-right">
+      <div id="chart_div_2">
+        </div>
+    </div>
 </div>
 </body>
 </html>
