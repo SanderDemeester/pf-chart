@@ -9,19 +9,27 @@ function addcolomn(){
 
 contentheaderflag=yes
 divid=0
+filename=NULL
+
 DATAFILE=voorbeeld-parsedfileformat/test1  #de dataset waaruit we de data moeten halen om te werken
 DATAFILE_RECORDS=$(cat $DATAFILE |wc -l) # aantal records in de datafile
 counter=0 #de counter om in de loop bij te houden hoeveel er al is geloopt
-tmp=`getopt -o nd: --long no-content-header,div-id: -- $@`
-eval set -- $tmp
+longopts="no-content-header,div-id,file:"
+shortopt="nd:f:"
+ARGUMENTS=$(getopt -s bash --options $shortopt --longoptions $longopts -- "$@")
+eval set -- $ARGUMENTS
 while true ; do
     case $1 in
 	-n|--no-content-header) contentheaderflag=no; shift;;
-	-d|--div-id) divid="$2"; shift;;
+	-d|--div-id) shift; divid="$1"; shift;;
+	-f|--file) shift; filename="$1"; shift;;
 	--) shift; break;;
-	*) break;;
+	*) shift; break;;
     esac
 done
+echo $contentheaderflag
+echo $divid
+echo $filename
 
 if [ $contentheaderflag == "yes" ]; then
     echo Content-type: text/html
@@ -30,8 +38,8 @@ fi
 
 LOADSCRIPT_PT1=script1.js
 LOADSCRIPT_PT2=script2.js
-breedte=500
-hoogte=400
+breedte=700
+hoogte=600
 title="IP Data-usage"
 /bin/cat <<EOF
 <html>
