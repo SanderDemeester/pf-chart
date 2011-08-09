@@ -1,5 +1,25 @@
 #!/bin/sh
 echo Content-type: text/html
 echo ""
-./make_chart --no-content-header -d 1 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1
-./make_chart --no-content-header -d 2 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1
+listid[0]=1
+listid[1]=2
+LOADSCRIPT_PT1=script1.js
+/bin/cat <<EOF
+<html>
+<head>
+<title>Data visualisatie</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+EOF
+cat $LOADSCRIPT_PT1
+./make_chart --no-content-header -d 1 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
+./make_chart --no-content-header -d 2 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "Broadcast traffic"
+/bin/cat <<EOF
+</script>
+</head>
+<body>
+<div id="chart_div_${listid[0]}"></div>
+<div id="chart_div_${listid[1]}"</div>
+</body>
+</html>
+EOF

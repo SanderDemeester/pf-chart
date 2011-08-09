@@ -1,0 +1,13 @@
+div.out{
+    width: 100%;
+    position: relative;
+    clear: both;
+}
+div.inner-left{
+    position: relative;
+    float: left;
+    }
+div.inner-right{
+    position: relative;
+    float: right;
+}

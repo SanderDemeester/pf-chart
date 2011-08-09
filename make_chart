@@ -16,8 +16,8 @@ DATAFILE=voorbeeld-parsedfileformat/test1  #de dataset waaruit we de data moeten
 DATAFILE_RECORDS=$(cat $DATAFILE |wc -l) # aantal records in de datafile
 PROFILEPATH="sed-scripts/"
 counter=0 #de counter om in de loop bij te houden hoeveel er al is geloopt
-longopts="no-content-header,div-id,file:,parse-profile:"
-shortopt="nd:f:p:"
+longopts="no-content-header,div-id,file:,parse-profile:,title:"
+shortopt="nd:f:p:t:"
 ARGUMENTS=$(getopt -s bash --options $shortopt --longoptions $longopts -- "$@")
 eval set -- $ARGUMENTS
 while true ; do
@@ -26,28 +26,21 @@ while true ; do
 	-p|--parse-profile)  shift; parseprofile="$1"; shift;;
 	-d|--div-id) shift; divid="$1"; shift;;
 	-f|--file) shift; filename="$1"; shift;;
+	-t|--title) shift; title="$1"; shift;;
 	--) shift; break;;
 	*) shift; break;;
     esac
 done
-echo $contentheaderflag
-echo $divid
-echo $filename
-echo $PROFILEPATH$parseprofile
 PROFILEPATH=$PROFILEPATH$parseprofile
-echo $PROFILEPATH
 
 if [ $contentheaderflag == "yes" ]; then
     echo Content-type: text/html
     echo ""
 fi
 
-LOADSCRIPT_PT1=script1.js
-LOADSCRIPT_PT2=script2.js
 breedte=600
 hoogte=500
-title="IP Data-usage"
-cat $LOADSCRIPT_PT1
+LOADSCRIPT_PT2=script2.js
 for i in $(cat $DATAFILE); do
 
    counter=$((counter+1))
@@ -64,12 +57,3 @@ cat $LOADSCRIPT_PT2 |sed -e "s/title_replace/$title/;\
 s/breedte_replace/$breedte/;\
 s/hoogte_replace/$hoogte/;\
 s/ID_NUMBER/$divid/"
-
-/bin/cat <<EOF
-</script>
-</head>
-<body>
-<div id="chart_div_$divid"></div>
-</body>
-</html>
-EOF
