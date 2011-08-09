@@ -41,8 +41,9 @@ fi
 breedte=600
 hoogte=500
 LOADSCRIPT_PT2=script2.js
+LOADSCRIPT_PT3=script3.js
+cat $LOADSCRIPT_PT2
 for i in $(cat $DATAFILE); do
-
    counter=$((counter+1))
    ipadr=$(echo $i |sed -f  $PROFILEPATH"-parseip.sed")
    value=$( echo $i |sed -f $PROFILEPATH"-parseconnection.sed")
@@ -53,7 +54,7 @@ for i in $(cat $DATAFILE); do
    fi
 done
 
-cat $LOADSCRIPT_PT2 |sed -e "s/title_replace/$title/;\
+cat $LOADSCRIPT_PT3 |sed -e "s/title_replace/$title/;\
 s/breedte_replace/$breedte/;\
 s/hoogte_replace/$hoogte/;\
-s/ID_NUMBER/$divid/"
+s/ID_NUMBER/$divid/g"

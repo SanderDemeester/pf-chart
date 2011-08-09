@@ -7,6 +7,7 @@ LOADSCRIPT_PT1=script1.js
 /bin/cat <<EOF
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="stijl/stijl.css" />
 <title>Data visualisatie</title>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
@@ -14,11 +15,18 @@ EOF
 cat $LOADSCRIPT_PT1
 ./make_chart --no-content-header -d 1 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
 /bin/cat <<EOF
+
 }</script>
 </head>
 <body>
+<div class="out">
+<div class="inner-left">
 <div id="chart_div_${listid[0]}"></div>
-<div id="chart_div_${listid[1]}"</div>
+</div>
+<div class="inner-right">
+<div id="chart_div_${listid[1]}"></div>
+</div>
+</div>
 </body>
 </html>
 EOF
