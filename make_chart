@@ -10,17 +10,20 @@ function addcolomn(){
 contentheaderflag=yes
 divid=0
 filename=NULL
+parseprofile=profile1 #de suite van sed scripts die moeten worden gebruikt om dit soort data te parsen.
 
 DATAFILE=voorbeeld-parsedfileformat/test1  #de dataset waaruit we de data moeten halen om te werken
 DATAFILE_RECORDS=$(cat $DATAFILE |wc -l) # aantal records in de datafile
+PROFILEPATH="sed-scripts/"
 counter=0 #de counter om in de loop bij te houden hoeveel er al is geloopt
-longopts="no-content-header,div-id,file:"
-shortopt="nd:f:"
+longopts="no-content-header,div-id,file:,parse-profile:"
+shortopt="nd:f:p:"
 ARGUMENTS=$(getopt -s bash --options $shortopt --longoptions $longopts -- "$@")
 eval set -- $ARGUMENTS
 while true ; do
     case $1 in
 	-n|--no-content-header) contentheaderflag=no; shift;;
+	-p|--parse-profile)  shift; parseprofile="$1"; shift;;
 	-d|--div-id) shift; divid="$1"; shift;;
 	-f|--file) shift; filename="$1"; shift;;
 	--) shift; break;;
@@ -30,6 +33,9 @@ done
 echo $contentheaderflag
 echo $divid
 echo $filename
+echo $PROFILEPATH$parseprofile
+PROFILEPATH=$PROFILEPATH$parseprofile
+echo $PROFILEPATH
 
 if [ $contentheaderflag == "yes" ]; then
     echo Content-type: text/html
@@ -51,9 +57,9 @@ EOF
 cat $LOADSCRIPT_PT1
 for i in $(cat $DATAFILE); do
 
-    counter=$((counter+1))
-   ipadr=$(echo $i |sed 's/^\([^:]*\):/\1/')
-   value=$( echo $i |sed 's/^[^:]*:\([0-9]*\)$/\1/')
+   counter=$((counter+1))
+   ipadr=$(echo $i |sed -f  $PROFILEPATH"-parseip.sed")
+   value=$( echo $i |sed -f $PROFILEPATH"-parseconnection.sed")
    if [ $counter -ne $DATAFILE_RECORDS ]; then
        addcolomn   |sed -e "s/DATA_POINT/$ipadr/;s/VALUE/$value/"
    else
