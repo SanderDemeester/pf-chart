@@ -13,7 +13,8 @@ LOADSCRIPT_PT1=script1.js
 <script type="text/javascript">
 EOF
 cat $LOADSCRIPT_PT1
-./make_chart --no-content-header -d 1 --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
+./make_chart --no-content-header -d ${listid[0]} --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
+./make_chart --no-content-header -d ${listid[1]} --file voorbeeld-parsedfileformat/test1 --parse-profile profile1 --title "IP-data usage"
 /bin/cat <<EOF
 
 }</script>

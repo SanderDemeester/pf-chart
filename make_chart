@@ -42,7 +42,7 @@ breedte=600
 hoogte=500
 LOADSCRIPT_PT2=script2.js
 LOADSCRIPT_PT3=script3.js
-cat $LOADSCRIPT_PT2
+cat $LOADSCRIPT_PT2 |sed -e "s/ID_NUMBER/$divid/g"
 for i in $(cat $DATAFILE); do
    counter=$((counter+1))
    ipadr=$(echo $i |sed -f  $PROFILEPATH"-parseip.sed")

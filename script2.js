@@ -1,4 +1,4 @@
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'ip-adr');
-    data.addColumn('number', 'out-going connections');
-    data.addRows([
+    var dataID_NUMBER = new google.visualization.DataTable();
+    dataID_NUMBER.addColumn('string', 'ip-adr');
+    dataID_NUMBER.addColumn('number', 'out-going connections');
+    dataID_NUMER.addRows([
